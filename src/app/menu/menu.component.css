@@ -1,0 +1,13 @@
+.menu-icon {
+  font-size: 13px;
+  width: 15px;
+}
+.menu-spacer {
+  flex: 1 1 auto;
+}
+a.link{
+  color: white;
+  font-size: 13px;
+  margin: 0 10px;
+  cursor: pointer;
+}

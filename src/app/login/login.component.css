@@ -1,0 +1,13 @@
+.Wraper {
+  height: 100vh;
+  background: #adc2c5;
+  position: absolute;
+  width: 100%;
+}
+form.login-form {
+  max-width: 400px;
+  width: 80%;
+  margin: 0 auto;
+  margin-top: 50vh;
+  transform: translateY(-50%);
+}

@@ -1,0 +1,45 @@
+<div class="Wraper">
+  <!-- Login Form -->
+  <form *ngIf='form=="login"' class="login-form row" #form="ngForm" (ngSubmit)="login(form)" novalidate>
+    <mat-form-field class="col-12">
+      <input matInput placeholder="Email" ngModel email required name="email">
+    </mat-form-field>
+    <mat-form-field class="col-12">
+      <input matInput placeholder="Password" [type]="hide ? 'password' : 'text'" ngModel minlength="5" required
+        name="password">
+      <mat-icon matSuffix (click)="hide = !hide">
+        {{hide ? 'visibility_off' : 'visibility'}}
+      </mat-icon>
+    </mat-form-field>
+    <a class="col-3" style="cursor:pointer" (click)='switchTo("register")' routerLink="/login" [queryParams]="{form:'register'}">Register</a>
+    <button mat-raised-button color="primary" [disabled]="!form.valid" class="col-3 ml-auto">Login</button>
+  </form>
+
+  <!-- Register Form -->
+  <form *ngIf='form=="register"' class="login-form row" #form="ngForm" (ngSubmit)="register(form)" novalidate>
+    <mat-form-field class="col-12">
+      <input matInput placeholder="Email" ngModel email required name="email">
+    </mat-form-field>
+    <mat-form-field class="col-12">
+      <input matInput placeholder="Password" [type]="hide ? 'password' : 'text'" #password='ngModel' ngModel minlength="5" required name="password">
+      <mat-icon matSuffix (click)="hide = !hide">
+        {{hide ? 'visibility_off' : 'visibility'}}
+      </mat-icon>
+    </mat-form-field>
+    <mat-form-field class="col-12">
+      <input matInput placeholder="Confirm password" [type]="hide ? 'password' : 'text'" #password2='ngModel' ngModel minlength="5" required name="password2">
+      <mat-icon matSuffix (click)="hide = !hide">
+        {{hide ? 'visibility_off' : 'visibility'}}
+      </mat-icon>
+    </mat-form-field>
+    <div class="alert col-12 alert-danger" *ngIf='password.value!=password2.value && password2.dirty '>
+      Passwords Are not the same
+    </div>
+    <!-- <div class="alert col-12 alert-danger" *ngIf='password.value.length<5'>
+      Please type more than 5 characters as your Password
+    </div> -->
+    <a class="col-3" style="cursor:pointer" (click)='switchTo("register")' routerLink="/login" [queryParams]="{form:'login'}">Login</a>
+    <button mat-raised-button color="primary" [disabled]="!form.valid || password.value!=password2.value" class="col-3 ml-auto">Register</button>
+  </form>
+
+</div>

@@ -1,0 +1,18 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <span>UR Shops</span>
+    <span class="menu-spacer"></span>
+    <a class="link" routerLink='/nearby'>
+      <mat-icon class="menu-icon" aria-hidden="false" aria-label="Nearby Shops">location_on</mat-icon>
+      Nearby Shops
+    </a>
+    <a class="link" routerLink='/favorite'>
+      <mat-icon class="menu-icon" aria-hidden="false" aria-label="Preferred Shops">favorite</mat-icon>
+      My Preferred Shops
+    </a>
+    <a class="link" (click)="auth.logout()">
+      <mat-icon class="menu-icon" aria-hidden="false" aria-label="Preferred Shops">logout</mat-icon>
+      Logout
+    </a>
+  </mat-toolbar-row>
+</mat-toolbar>
