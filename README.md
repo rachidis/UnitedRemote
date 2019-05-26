@@ -4,6 +4,8 @@ Hello Remoters,
 - There is no cloud function in this project, all security rules have been set in the firestore rules;
 - In order to sort the shops by the distance, the user will need accept the geolocation request;
 - Unauthenticated user may still see the shops list but will be redirected to login page if he clicks like or dislike button;
+- Adapted with Mobile devices
+- App is RealTime.
 
 #fireStore Rules
 fireStore Rules:

@@ -4,7 +4,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { Injectable } from '@angular/core';
 import { UtilService } from './util.service';
 import { Observable } from 'rxjs';
-import { map, take, switchMap } from 'rxjs/operators';
+import { map, switchMap, take } from 'rxjs/operators';
 import * as firebase from 'firebase/app'
 import * as moment from 'moment';
 
@@ -17,19 +17,15 @@ export class ShopService {
     private util:UtilService,
     private auth:AuthService,
     ) {
-
     // I used this to Insert Data to firestore database;
-    // for (let i = 0; i < 30; i++) {
-    //   let shop = new Shop();
-    //   shop.photo='photo'+i+'.jpg';
-    //   shop.title='Shop N'+i;
-    //   shop.description='Lorem ipsum dolor sit, amet consectetur adipisicing elit. Laudantium officiis, accusantium, eaque delectus aperiam labore fugit aut quaerat minus dignissimos sint. Eaque numquam a hic nostrum alias commodi, amet minus?';
-    //   let lat=Math.random()*0.01+34.024750 as any;
-    //   let lng=Math.random()*0.01+(-6.786269) as any;
-    //   shop.location= new firebase.firestore.GeoPoint(+lat.toFixed(5),+lng.toFixed(5));
-    //   this.saveShop(shop);
-    //   console.log(shop)
-    // }
+    // this.allShops().pipe(take(1)).subscribe((shops:Shop[])=>{
+    //   shops.forEach(shop=>{
+    //     let lat=(Math.random()* 2 - 1) *0.05+33.995179 as any;
+    //     let lng=(Math.random()* 2 - 1 )*0.06+(-6.851253) as any;
+    //     shop.location= new firebase.firestore.GeoPoint(+lat.toFixed(5),+lng.toFixed(5));
+    //     this.saveShop(shop);
+    //   })
+    // })
     // this.allShops().subscribe(e=>console.log(e))
   }
 
@@ -76,9 +72,7 @@ export class ShopService {
     delete shop['distanceByM'];
     delete shop['distance']
     delete shop['photoURL'];
-    console.log(shop);
     return this.firestore.doc('shops/' + shop.id).set(Object.assign({}, shop), {merge: merge}).then(e=>{
-      console.log(shop)
       this.util.hideloading();
     }).catch(e=>{
       console.log('error')
