@@ -2,17 +2,29 @@
   <mat-toolbar-row>
     <span>UR Shops</span>
     <span class="menu-spacer"></span>
-    <a class="link" routerLink='/'>
-      <mat-icon class="menu-icon" aria-hidden="false" aria-label="Nearby Shops">location_on</mat-icon>
-      Nearby Shops
-    </a>
-    <a class="link" routerLink='/favorite'>
-      <mat-icon class="menu-icon" aria-hidden="false" aria-label="Preferred Shops">favorite</mat-icon>
-      My Preferred Shops
-    </a>
-    <a class="link" (click)="auth.logout()">
-      <mat-icon class="menu-icon" aria-hidden="false" aria-label="Preferred Shops">logout</mat-icon>
-      Logout
-    </a>
+    <ng-container *ngIf='(auth.user$ | async)?.uid;else notLogged'>
+      <a class="link" [routerLinkActiveOptions]="{ exact: true }" [routerLinkActive]="'is-active'" routerLink='/'>
+        <mat-icon class="menu-icon" aria-hidden="false" aria-label="Nearby Shops">location_on</mat-icon>
+        Nearby Shops
+      </a>
+      <a class="link" [routerLinkActive]="'is-active'" routerLink='/FavoriteList'>
+        <mat-icon class="menu-icon" aria-hidden="false" aria-label="Preferred Shops">favorite</mat-icon>
+        My Preferred Shops
+      </a>
+      <a class="link" (click)="auth.logout()">
+        <mat-icon class="menu-icon" aria-hidden="false" aria-label="Preferred Shops">logout</mat-icon>
+        Logout
+      </a>
+    </ng-container>
+    <ng-template #notLogged>
+      <a class="link" [routerLinkActiveOptions]="{ exact: true }" [routerLinkActive]="'is-active'" routerLink="/">
+        <mat-icon class="menu-icon" aria-hidden="false" aria-label="Preferred Shops">logout</mat-icon>
+        Home
+      </a>
+      <a class="link" [routerLinkActive]="'is-active'" routerLink="login">
+        <mat-icon class="menu-icon" aria-hidden="false" aria-label="Preferred Shops">logout</mat-icon>
+        Login
+      </a>
+    </ng-template>
   </mat-toolbar-row>
 </mat-toolbar>

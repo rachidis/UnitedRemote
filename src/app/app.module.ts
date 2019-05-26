@@ -16,13 +16,15 @@ import { environment } from 'src/environments/environment';
 import { HomeComponent } from './home/home.component';
 import { MenuComponent } from './menu/menu.component';
 import { CdkTableModule } from '@angular/cdk/table';
+import { FavListComponent } from './fav-list/fav-list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     HomeComponent,
-    MenuComponent
+    MenuComponent,
+    FavListComponent
   ],
   imports: [
     BrowserModule,

@@ -1,3 +1,4 @@
+import { AuthService } from './services/auth.service';
 import { UtilService } from './services/util.service';
 import { Component } from '@angular/core';
 
@@ -8,7 +9,10 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'UnitedR';
-  constructor(public util:UtilService){
+  constructor(
+    public util:UtilService,
+    public auth:AuthService
+    ){
 
   }
 }

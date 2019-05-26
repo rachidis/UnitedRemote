@@ -4,3 +4,96 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+tbody {
+  width: 100%;
+  display: block;
+}
+tr.cdk-row {
+    width: 25%;
+    display: inline-block;
+    padding: 10px;
+}
+
+@media screen and (max-width: 991px) {
+  tr.cdk-row {
+      width: 33%;
+  }
+}
+@media screen and (max-width: 768px) {
+    tr.cdk-row {
+        width: 50%;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    tr.cdk-row {
+        width: 100%;
+    }
+}
+
+table{
+  width: 100%;
+}
+.searchFilter .mat-form-field-empty.mat-form-field-label {
+  color: #424242;
+}
+.searchFilter .mat-form-field-underline {
+  background-color: #424242;
+}
+
+.example-card {
+    max-width: 400px;
+}
+
+.example-header-image {
+    background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+    background-size: cover;
+}
+
+.mat-card-avatar {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    position: relative;
+    overflow: hidden;
+    display: block;
+}
+
+.mat-card-image:first-child {
+    margin-top: unset !important;
+}
+
+.shopNumer {
+    color: #84768a;
+    font-size: 15px;
+    display: block;
+}
+
+mat-card-content.mat-card-content {
+    height: 80px;
+}
+
+.cardImage {
+    height: 200px;
+    background-size: cover;
+    background-position: center;
+}
+
+.title {
+    margin: 40px 10px;
+}
+
+.mat-card-actions,
+.mat-card-content,
+.mat-card-subtitle {
+    margin-bottom: unset !important;
+}
+
+mat-card-header.mat-card-header {
+    margin-bottom: 10px;
+}
+snack-bar-container.mat-snack-bar-container {
+  background: #7b1ea2;
+  color: white;
+}

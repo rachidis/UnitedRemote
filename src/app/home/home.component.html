@@ -1,8 +1,16 @@
-<app-menu></app-menu>
 <div class="container">
   <div class="shops">
-    <h3 class="title">Nearby Shops</h3>
-    <table cdk-table [dataSource]="allShops">
+    <h3 class="title">Nearby Shops <span class="shopNumer">{{dataSource?.data?.length}} Shops</span></h3>
+    <div class="alert alert-info" *ngIf='dataSource?.data?.length==0;else filter'>
+      there are no shop in the list, you might have liked/disliked thel all
+    </div>
+    <ng-template #filter >
+      <mat-form-field class="searchFilter" style="display:block">
+          <mat-icon matPrefix style="margin-right:5px">Search</mat-icon>
+          <input matInput style="width:300px" (keyup)="applyFilter($event.target.value)" placeholder="Filter Shops">
+      </mat-form-field>
+    </ng-template>
+    <table cdk-table [dataSource]="dataSource">
       <ng-container cdkColumnDef="shop">
         <th cdk-header-cell *cdkHeaderCellDef>  </th>
         <div *cdkCellDef="let element">
@@ -12,7 +20,7 @@
                 <img mat-card-image [src]="element?.photoURL | async" alt="avatar of {{element.title}}">
               </div>
               <mat-card-title>{{element.title}}</mat-card-title>
-              <mat-card-subtitle>{{element.distanceTo}}</mat-card-subtitle>
+              <mat-card-subtitle>{{element['distance']}}</mat-card-subtitle>
             </mat-card-header>
             <div mat-card-image class="cardImage" [style.background-image]="getBackground(element?.photoURL | async)">
             </div>
@@ -22,14 +30,14 @@
               </p>
             </mat-card-content>
             <mat-card-actions>
-              <button (click)='like(element)' mat-button>LIKE</button>
-              <button (click)='dislike(element)' mat-button>DISLIKE</button>
+              <button (click)='like(element,i)' mat-stroked-button>LIKE</button>
+              <button (click)='dislike(element,i)' mat-stroked-button>DISLIKE</button>
             </mat-card-actions>
           </mat-card>
         </div>
       </ng-container>
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr cdk-row *cdkRowDef="let row; columns: displayedColumns;"></tr>
+      <tr cdk-row *cdkRowDef="let row; columns: displayedColumns;let i=index"></tr>
     </table>
     <mat-paginator [pageSizeOptions]="[16, 32]" showFirstLastButtons></mat-paginator>
   </div>

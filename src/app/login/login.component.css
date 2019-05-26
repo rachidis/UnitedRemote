@@ -1,5 +1,5 @@
 .Wraper {
-  height: 100vh;
+  height: calc(100vh - 64px);
   background: #adc2c5;
   position: absolute;
   width: 100%;
@@ -9,5 +9,5 @@ form.login-form {
   width: 80%;
   margin: 0 auto;
   margin-top: 50vh;
-  transform: translateY(-50%);
+  transform: translateY(-60%);
 }

@@ -1,12 +1,12 @@
-import { GeolocationService } from './geolocation.service';
-import { FirestorageService } from './firestorage.service';
+import { AuthService } from './auth.service';
 import { Shop } from './../classes/shop';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Injectable } from '@angular/core';
 import { UtilService } from './util.service';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, take, switchMap } from 'rxjs/operators';
 import * as firebase from 'firebase/app'
+import * as moment from 'moment';
 
 @Injectable({
   providedIn: 'root'
@@ -15,12 +15,11 @@ export class ShopService {
   constructor(
     private firestore:AngularFirestore,
     private util:UtilService,
-    public storageS:FirestorageService,
-    private geoLocS:GeolocationService
+    private auth:AuthService,
     ) {
-    // console.log("shopservice")
+
+    // I used this to Insert Data to firestore database;
     // for (let i = 0; i < 30; i++) {
-    //   // 34.024750, -6.786269 | 34.027000, -6.789391 | 34.022250, -6.833092 | 34.044450, -6.819653
     //   let shop = new Shop();
     //   shop.photo='photo'+i+'.jpg';
     //   shop.title='Shop N'+i;
@@ -43,17 +42,33 @@ export class ShopService {
     return b ;
   }
   allShops(){
+    return this.firestore.collection('shops').valueChanges().pipe(map((e:Shop[])=>e));
+  }
+  allUnlikedShops(){
+    return this.auth.user$.pipe(
+      switchMap((user:firebase.User)=>{
+        if(!user){
+          return this.allShops();
+        }
+        return this.firestore.collection('shops').valueChanges().pipe(map((shops:Shop[])=>{
+          return shops.filter(shop=>{
+            let Disliked=shop.dislikes.find(dislike=>dislike.id==user.uid)
+            if(Disliked){
+              let dislikeTime=moment(Disliked.date);
+              Disliked=dislikeTime.isSameOrAfter(moment().subtract(2, 'hours'))
+              console.log(Disliked,dislikeTime.format('LLLL'),moment().utc().subtract(2, 'hours').format('LLLL'));
+            }
+            return shop.Likes.indexOf(user.uid)==-1 && !Disliked
+          })
+        }));
+      })
+    )
+  }
+  allLikedShops(){
     return this.firestore.collection('shops'
     // ,ref => ref.orderBy('annee', 'desc')
-    ).valueChanges().pipe(map(async (e:Shop[])=>{
-      console.log(e);
-      await e.forEach(async (ashop,index)=>{
-        let url:Observable<any>=this.storageS.getURL(ashop.photo);
-        ashop['photoURL']=url;
-        ashop['distanceToM']= await this.geoLocS.distanceTo(ashop.location,'m')
-        ashop['distanceTo']= await this.geoLocS.distanceTo(ashop.location);
-      })
-      return e;
+    ).valueChanges().pipe(map((e:Shop[])=>{
+      return e.filter(shop=>shop.Likes.indexOf(this.auth.user.id)!=-1)
     }));
   }
   saveShop(shop:Shop){
@@ -62,11 +77,7 @@ export class ShopService {
     if (shop['distanceTo'])delete shop['distanceTo'];
     if (shop['photoURL'])delete shop['photoURL'];
     shop = Object.assign({}, shop);
-    this.firestore.collection('shops').add(shop).then(e=>{
-      shop.id = e.id;
-      if(!shop.id){
-        e.set(shop);
-      }
+    return this.firestore.doc('shops/' + shop.id).set(Object.assign({}, shop), {merge: true}).then(e=>{
       this.util.hideloading();
     });
   }

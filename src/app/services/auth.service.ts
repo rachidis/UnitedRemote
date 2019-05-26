@@ -1,6 +1,6 @@
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 import { take, switchMap } from 'rxjs/operators';
 import { UtilService } from './util.service';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -50,7 +50,7 @@ export class AuthService {
     })
   }
 
-  logout(path='/login'){
+  logout(path='/'){
     this.afauth.auth.signOut().then(()=>{
       this.router.navigateByUrl(decodeURIComponent(path));
     }).catch(e=>{

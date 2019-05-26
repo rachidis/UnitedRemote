@@ -36,7 +36,7 @@ export class LoginComponent implements OnInit,OnDestroy {
   }
   register(form){
     console.log(form)
-    // this.auth.register(form.value)
+    this.auth.register(form.value)
   }
   login(f){
     if(!f.valid){

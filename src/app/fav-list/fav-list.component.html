@@ -1,0 +1,43 @@
+<div class="container">
+    <div class="shops">
+      <h3 class="title">Nearby Shops <span class="shopNumer">{{dataSource?.data?.length}} Shops</span></h3>
+      <div class="alert alert-info" *ngIf='dataSource?.data?.length==0;else filter'>
+        There is no Shop in your Favorite list, please like a shop from the <a routerLink='/'>home</a> page to add it here
+      </div>
+      <ng-template #filter >
+        <mat-form-field class="searchFilter" style="display:block">
+            <mat-icon matPrefix style="margin-right:5px">search</mat-icon>
+            <input matInput style="width:300px" (keyup)="applyFilter($event.target.value)" placeholder="Filter Shops">
+        </mat-form-field>
+      </ng-template>
+      <table cdk-table [dataSource]="dataSource">
+        <ng-container cdkColumnDef="shop">
+          <th cdk-header-cell *cdkHeaderCellDef>  </th>
+          <div *cdkCellDef="let element">
+            <mat-card class="example-card">
+              <mat-card-header>
+                <div mat-card-avatar class="example-header-images" >
+                  <img mat-card-image [src]="element?.photoURL | async" alt="avatar of {{element.title}}">
+                </div>
+                <mat-card-title>{{element.title}}</mat-card-title>
+                <mat-card-subtitle>{{element['distance']}}</mat-card-subtitle>
+              </mat-card-header>
+              <div mat-card-image class="cardImage" [style.background-image]="getBackground(element?.photoURL | async)">
+              </div>
+              <mat-card-content>
+                <p>
+                  {{(element.description.length>100)? (element.description | slice:0:100)+'..':(element.description)}}
+                </p>
+              </mat-card-content>
+              <mat-card-actions>
+                <button (click)='unlike(element)' mat-stroked-button>Remove</button>
+              </mat-card-actions>
+            </mat-card>
+          </div>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr cdk-row *cdkRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+      <mat-paginator [pageSizeOptions]="[16, 32]" showFirstLastButtons></mat-paginator>
+    </div>
+  </div>
