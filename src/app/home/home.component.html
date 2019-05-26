@@ -1,4 +1,36 @@
 <app-menu></app-menu>
-<p>
-  home works!
-</p>
+<div class="container">
+  <div class="shops">
+    <h3 class="title">Nearby Shops</h3>
+    <table cdk-table [dataSource]="allShops">
+      <ng-container cdkColumnDef="shop">
+        <th cdk-header-cell *cdkHeaderCellDef>  </th>
+        <div *cdkCellDef="let element">
+          <mat-card class="example-card">
+            <mat-card-header>
+              <div mat-card-avatar class="example-header-images" >
+                <img mat-card-image [src]="element?.photoURL | async" alt="avatar of {{element.title}}">
+              </div>
+              <mat-card-title>{{element.title}}</mat-card-title>
+              <mat-card-subtitle>{{element.distanceTo}}</mat-card-subtitle>
+            </mat-card-header>
+            <div mat-card-image class="cardImage" [style.background-image]="getBackground(element?.photoURL | async)">
+            </div>
+            <mat-card-content>
+              <p>
+                {{(element.description.length>100)? (element.description | slice:0:100)+'..':(element.description)}}
+              </p>
+            </mat-card-content>
+            <mat-card-actions>
+              <button (click)='like(element)' mat-button>LIKE</button>
+              <button (click)='dislike(element)' mat-button>DISLIKE</button>
+            </mat-card-actions>
+          </mat-card>
+        </div>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr cdk-row *cdkRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    <mat-paginator [pageSizeOptions]="[16, 32]" showFirstLastButtons></mat-paginator>
+  </div>
+</div>

@@ -12,7 +12,7 @@ import { User } from '../classes/user';
 })
 export class AuthService {
   public user$;
-  public user;
+  public user:User;
   constructor(
     private afauth:AngularFireAuth,
     private util:UtilService,

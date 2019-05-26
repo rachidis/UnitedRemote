@@ -12,10 +12,11 @@ import { AuthService } from '../services/auth.service';
 export class LoginComponent implements OnInit,OnDestroy {
   queryparam:Subscription;
   form='login'
+  hide=true;
   constructor(
     private route:ActivatedRoute,
     private auth:AuthService,
-    private util:UtilService
+    private util:UtilService,
   ) {
     this.queryparam=route.queryParams.subscribe(params => {
       this.form = params['form'] || 'login';
@@ -35,7 +36,7 @@ export class LoginComponent implements OnInit,OnDestroy {
   }
   register(form){
     console.log(form)
-    this.auth.register(form.value)
+    // this.auth.register(form.value)
   }
   login(f){
     if(!f.valid){
