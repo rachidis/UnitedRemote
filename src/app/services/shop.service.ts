@@ -1,3 +1,5 @@
+import { GeolocationService } from './geolocation.service';
+import { FirestorageService } from './firestorage.service';
 import { Shop } from './../classes/shop';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Injectable } from '@angular/core';
@@ -12,8 +14,10 @@ import * as firebase from 'firebase/app'
 export class ShopService {
   constructor(
     private firestore:AngularFirestore,
-    private util:UtilService
-  ) {
+    private util:UtilService,
+    public storageS:FirestorageService,
+    private geoLocS:GeolocationService
+    ) {
     // console.log("shopservice")
     // for (let i = 0; i < 30; i++) {
     //   // 34.024750, -6.786269 | 34.027000, -6.789391 | 34.022250, -6.833092 | 34.044450, -6.819653
@@ -41,10 +45,22 @@ export class ShopService {
   allShops(){
     return this.firestore.collection('shops'
     // ,ref => ref.orderBy('annee', 'desc')
-    ).valueChanges().pipe(map(e=>e as Shop[]));
+    ).valueChanges().pipe(map(async (e:Shop[])=>{
+      console.log(e);
+      await e.forEach(async (ashop,index)=>{
+        let url:Observable<any>=this.storageS.getURL(ashop.photo);
+        ashop['photoURL']=url;
+        ashop['distanceToM']= await this.geoLocS.distanceTo(ashop.location,'m')
+        ashop['distanceTo']= await this.geoLocS.distanceTo(ashop.location);
+      })
+      return e;
+    }));
   }
   saveShop(shop:Shop){
     this.util.showloading();
+    if (shop['distanceToM'])delete shop['distanceToM'];
+    if (shop['distanceTo'])delete shop['distanceTo'];
+    if (shop['photoURL'])delete shop['photoURL'];
     shop = Object.assign({}, shop);
     this.firestore.collection('shops').add(shop).then(e=>{
       shop.id = e.id;

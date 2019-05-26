@@ -22,47 +22,30 @@ export class HomeComponent implements OnInit {
   public allShops:MatTableDataSource<Shop>;
   constructor(
     public shopS:ShopService,
-    public storageS:FirestorageService,
     public geoLocS:GeolocationService,
     private _sanitizer: DomSanitizer,
     private auth:AuthService,
   ) {
-    this.shopS.allShops().subscribe(async (allshops)=>{
-      allshops.forEach(async (ashop)=>{
-        let url:Observable<any>=await this.storageS.getURL(ashop.photo);
-        ashop['photoURL']=url;
-        ashop['distanceToM']= await this.geoLocS.distanceTo(ashop.location,'m')
-        ashop['distanceTo']= await this.geoLocS.distanceTo(ashop.location)
-      })
+    this.shopS.allShops().subscribe(async(allshops)=>{
       // sort by distance
-      setTimeout(() => {
-        allshops.forEach(e=>console.log(e['distanceTo']))
-      }, 1000);
+      let mydata=await allshops
+      mydata.sort((a,b)=>a['distanceToM']-b['distanceToM']);
       // remove Liked Shops
       // mydata=mydata.filter(e=>e.Likes.indexOf(this.auth.user.id)==-1)
-      this.allShops=new MatTableDataSource(allshops);
-
+      this.allShops=new MatTableDataSource(mydata);
       this.allShops.paginator=this.paginator;
     })
   }
-  ngOnInit() {
-  }
-  get sortedShops(){
+  ngOnInit(){
 
-    return
   }
   getBackground(imgurl){
     return this._sanitizer.bypassSecurityTrustStyle('url('+imgurl+')');
   }
   like(element:Shop){
     if(element.Likes.indexOf(this.auth.user.id)==-1){
-      if (element['distanceToM'])delete element['distanceToM'];
-      if (element['distanceTo'])delete element['distanceTo'];
-      if (element['photoURL'])delete element['photoURL'];
-      let shop= Object.assign({},element)
-      console.log(shop);
       element.Likes.push(this.auth.user.id);
-      // this.shopS.saveShop(element)
+      this.shopS.saveShop(element)
     }
   }
 }
