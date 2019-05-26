@@ -35,7 +35,7 @@ export class HomeComponent implements OnInit,OnDestroy {
   ) {
     this.sub=this.auth.user$.pipe(take(1)).subscribe(user=>{
       this.shopS.allUnlikedShops().subscribe(allShops=>{
-        this.allShops=allShops
+        this.allShops=allShops;
         this.allShops.forEach((ashop,index)=>{
           let url:Observable<any>=this.storageS.getURL(ashop.photo);
           ashop['photoURL']=url;
@@ -86,7 +86,7 @@ export class HomeComponent implements OnInit,OnDestroy {
       date:moment().utc().valueOf()
     });
     this.shopS.saveShop(element).then(()=>{
-      this.util.openSnackBar(element.title+' has been added to your favorite Shops list')
+      this.util.openSnackBar(element.title+' wont be listed for the next two Hours')
     })
   }
 

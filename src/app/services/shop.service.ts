@@ -70,14 +70,18 @@ export class ShopService {
       return e.filter(shop=>shop.Likes.indexOf(this.auth.user.id)!=-1)
     }));
   }
-  saveShop(shop:Shop){
+  saveShop(shop:Shop,merge=false){
     this.util.showloading();
-    if (shop['distanceToM'])delete shop['distanceToM'];
-    if (shop['distanceTo'])delete shop['distanceTo'];
-    if (shop['photoURL'])delete shop['photoURL'];
     shop = Object.assign({}, shop);
-    return this.firestore.doc('shops/' + shop.id).set(Object.assign({}, shop), {merge: true}).then(e=>{
+    delete shop['distanceByM'];
+    delete shop['distance']
+    delete shop['photoURL'];
+    console.log(shop);
+    return this.firestore.doc('shops/' + shop.id).set(Object.assign({}, shop), {merge: merge}).then(e=>{
+      console.log(shop)
       this.util.hideloading();
+    }).catch(e=>{
+      console.log('error')
     });
   }
   editShop(shop:Shop){

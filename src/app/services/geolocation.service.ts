@@ -48,6 +48,7 @@ export class GeolocationService {
   }
 
   shopDistanceByOrder(shops:Shop[],callBack){
+    console.log('geoloc');
     (navigator as any).permissions.query({ name: 'geolocation' }).then(permission=>{
       if(permission.state!='granted'){
         this.util.openSnackBar('For better Experience please Accept the GeoLocation service, Thanks');
