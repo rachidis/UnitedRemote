@@ -36,7 +36,6 @@ export class FavListComponent implements OnInit {
       // if didNot Accept geoLocation
       this.dataSource=new MatTableDataSource(allShops)
       this.dataSource.paginator=this.paginator;
-
       // if didnt accept GeoLocation
       this.geoLocS.shopDistanceByOrder(this.allShops,result=>{
         this.dataSource=new MatTableDataSource(result)

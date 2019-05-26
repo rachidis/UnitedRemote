@@ -33,7 +33,6 @@ export class HomeComponent implements OnInit,OnDestroy {
     public storageS:FirestorageService,
     private router:Router
   ) {
-    this.util.showloading()
     this.sub=this.auth.user$.pipe(take(1)).subscribe(user=>{
       this.shopS.allUnlikedShops().subscribe(allShops=>{
         this.allShops=allShops
@@ -48,7 +47,6 @@ export class HomeComponent implements OnInit,OnDestroy {
 
         // Getting Oredering if user accepts GeoLocation
         this.geoLocS.shopDistanceByOrder(this.allShops,result=>{
-          this.util.hideloading()
           this.dataSource=new MatTableDataSource(result)
           this.dataSource.paginator=this.paginator;
         })
