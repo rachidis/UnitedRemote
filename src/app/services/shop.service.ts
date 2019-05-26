@@ -56,7 +56,6 @@ export class ShopService {
             if(Disliked){
               let dislikeTime=moment(Disliked.date);
               Disliked=dislikeTime.isSameOrAfter(moment().subtract(2, 'hours'))
-              console.log(Disliked,dislikeTime.format('LLLL'),moment().utc().subtract(2, 'hours').format('LLLL'));
             }
             return shop.Likes.indexOf(user.uid)==-1 && !Disliked
           })

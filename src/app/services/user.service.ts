@@ -8,11 +8,9 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class UserService {
-
   constructor(
     private firestore:AngularFirestore
   ) { }
-
   saveUser(user:User){
     return this.firestore.doc('users/' + user.id).set(Object.assign({}, user), {merge: true})
   }

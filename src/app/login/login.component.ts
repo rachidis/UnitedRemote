@@ -28,14 +28,10 @@ export class LoginComponent implements OnInit,OnDestroy {
   ngOnDestroy(){
     this.queryparam.unsubscribe()
   }
-  ngSubmit(form){
-    console.log(form)
-  }
   switchTo(to){
     this.form=to
   }
   register(form){
-    console.log(form)
     this.auth.register(form.value)
   }
   login(f){

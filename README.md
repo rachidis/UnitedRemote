@@ -1,16 +1,15 @@
 # Rachid
 Hello Remoters,
 
-There is no cloud function in this project, all security rules have been set in the firestore rules;
+- There is no cloud function in this project, all security rules have been set in the firestore rules;
+- In order to sort the shops by the distance, the user will need accept the geolocation request;
+- Unauthenticated user may still see the shops list but will be redirected to login page if he clicks like or dislike button;
 
 here is the demo; hope we get in touch soon;
 
 [Demo Link](https://rachidur-7e19a.web.app/)
 
-
-
 # UnitedR
-
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.0.5.
 
 ## Development server

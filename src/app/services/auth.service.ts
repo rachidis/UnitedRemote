@@ -22,7 +22,6 @@ export class AuthService {
   ) {
     this.user$=this.afauth.authState;
     this.appUser$.subscribe(u=>{
-      console.log(u)
       return this.user=u;
     });
   }
@@ -53,9 +52,7 @@ export class AuthService {
   logout(path='/'){
     this.afauth.auth.signOut().then(()=>{
       this.router.navigateByUrl(decodeURIComponent(path));
-    }).catch(e=>{
-      console.log('catched error: ',e)
-    });
+    })
   }
 
   register(f){
@@ -68,7 +65,6 @@ export class AuthService {
       // Handle Errors here.
       var errorCode = error.code;
       var errorMessage = error.message;
-      console.log(errorCode,errorMessage);
       this.util.hideloading()
       this.util.openSnackBar(errorMessage)
     }).then((e:any)=>{

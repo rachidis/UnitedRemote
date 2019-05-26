@@ -36,7 +36,6 @@ export class HomeComponent implements OnInit,OnDestroy {
     this.sub=this.auth.user$.pipe(take(1)).subscribe(user=>{
       this.shopS.allUnlikedShops().subscribe(allShops=>{
         this.allShops=allShops
-        console.log(this.allShops)
         this.allShops.forEach((ashop,index)=>{
           let url:Observable<any>=this.storageS.getURL(ashop.photo);
           ashop['photoURL']=url;
